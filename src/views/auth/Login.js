@@ -19,20 +19,36 @@ function Login(props) {
       });
 
       const data = await response.json();
+      console.log("Login response:", data);
 
       if (response.ok) {
-        // ✅ Save tokens
+        // Save tokens and roles
         localStorage.setItem("access_token", data.access);
         localStorage.setItem("refresh_token", data.refresh);
         localStorage.setItem("is_superuser", data.is_superuser);
-        localStorage.setItem("isLoggedIn", "true"); // <- Required for PrivateRoute
+        localStorage.setItem("is_staff", data.is_staff);
+        localStorage.setItem("isLoggedIn", "true");
+
+        // Safely store user if it exists
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+        }
+
+        // Optional: if `token` is separate from `access`
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
 
         Swal.fire("Success", data.message || "Login successful!", "success");
 
-        // ✅ Redirect to dashboard
-        props.history.push("/admin/dashboard");
+        // Redirect based on role
+        if (data.is_superuser || data.is_staff) {
+          props.history.push("/admin/admindashboard");
+        } else {
+          props.history.push("/admin/dashboard");
+        }
       } else {
-        Swal.fire("Error", data.error || "Invalid credentials", "error");
+        Swal.fire("Error", data.detail || data.error || "Invalid credentials", "error");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -95,11 +111,7 @@ function Login(props) {
 
           <div className="flex flex-wrap mt-6 relative">
             <div className="w-1/2">
-              <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                className="text-blueGray-200"
-              >
+              <a href="#" onClick={(e) => e.preventDefault()} className="text-blueGray-200">
                 <small>Forgot password?</small>
               </a>
             </div>

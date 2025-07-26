@@ -158,7 +158,7 @@ export default function Sidebar() {
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/maps"
+                  to="/admin/mycomplaints"
                 >
                   <i
                     className={
@@ -168,7 +168,7 @@ export default function Sidebar() {
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
-                  Maps
+                  My Comlaints
                 </Link>
               </li>
             </ul>
