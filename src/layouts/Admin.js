@@ -9,14 +9,14 @@ import AdminSidebar from "components/Sidebar/AdminSidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
 import FooterAdmin from "components/Footers/FooterAdmin.js";
 
-// Views
+// Viewsadmincomplaints
 import Dashboard from "views/admin/Dashboard.js";
 import AdminDashboard from "views/admin/adminDashboard.js";
 import Maps from "views/admin/Maps.js";
 import Settings from "views/admin/Settings.js";
 import Complaints from "components/Cards/Complaints.js";
 import MyComplaints from "components/Cards/myComplaints.js";
-
+import AdminComplaintsDashboard from "components/Cards/admincomplaints.js";
 export default function Admin() {
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -50,6 +50,7 @@ export default function Admin() {
             <PrivateRoute exact path="/admin/settings" component={Settings} />
             <PrivateRoute exact path="/admin/complaints" component={Complaints} />
             <PrivateRoute exact path="/admin/mycomplaints" component={MyComplaints} />
+            <PrivateRoute exact path="/admin/admincomplaints" component={AdminComplaintsDashboard} />
 
             {/* Default redirect if no route matches */}
             <Redirect from="/admin" to="/admin/dashboard" />
