@@ -28,6 +28,8 @@ function Login(props) {
         localStorage.setItem("is_superuser", data.is_superuser);
         localStorage.setItem("is_staff", data.is_staff);
         localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("user", JSON.stringify(data.user));
+        
 
         // Safely store user if it exists
         if (data.user) {

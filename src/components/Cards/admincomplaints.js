@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { FaUsers, FaCheckCircle, FaHourglassHalf, FaTimesCircle } from "react-icons/fa";
+import {
+  FaUsers,
+  FaCheckCircle,
+  FaHourglassHalf,
+  FaTimesCircle,
+} from "react-icons/fa";
 
 function AdminComplaintsDashboard() {
   const [complaints, setComplaints] = useState([]);
@@ -23,11 +28,14 @@ function AdminComplaintsDashboard() {
 
   const fetchComplaints = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/auth/complaints/", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/auth/complaints/",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       setComplaints(response.data);
     } catch (error) {
       console.error("Error fetching complaints:", error);
@@ -64,60 +72,83 @@ function AdminComplaintsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <h2 className="text-3xl font-bold text-center mb-8 text-indigo-600">
-        <FaUsers className="inline-block mr-2" />
-        Complaints Management
-      </h2>
+    <div className="min-h-screen bg-gray-100 py-10 px-4">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center text-blueGray-800 mb-10">
+          <FaUsers className="inline-block mr-2 text-indigo-500" />
+          Complaints Management
+        </h2>
 
-      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {complaints.length === 0 && (
-          <p className="text-center col-span-full text-gray-500">No complaints found.</p>
-        )}
-
-        {complaints.map((complaint) => (
-          <div
-            key={complaint.id}
-            className="bg-white shadow-xl rounded-2xl p-5 hover:shadow-indigo-300 transition duration-300"
-          >
-            <div className="mb-3">
-              <h3 className="text-xl font-semibold text-gray-800">{complaint.full_name}</h3>
-              <p className="text-sm text-gray-500">Ward No: {complaint.ward_no}</p>
-            </div>
-
-            <p className="text-gray-700 mb-2">
-              <span className="font-medium">Category:</span> {complaint.category}
-            </p>
-            <p className="text-gray-700 mb-4">
-              <span className="font-medium">Description:</span> {complaint.description}
-            </p>
-
-            <div className="flex items-center justify-between mb-4">
-              <span
-                className={`text-xs font-semibold px-3 py-1 rounded-full ${statusColors[complaint.status]}`}
-              >
-                {complaint.status.toUpperCase()}
-              </span>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1 text-gray-600">
-                Update Status:
-              </label>
-              <select
-                value={complaint.status}
-                onChange={(e) => handleStatusChange(complaint.id, e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
-              >
-                {statusOptions.map((status) => (
-                  <option key={status.value} value={status.value}>
-                    {status.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+        {complaints.length === 0 ? (
+          <div className="bg-white rounded-xl shadow-md p-8 text-center text-gray-500">
+            No complaints available.
           </div>
-        ))}
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {complaints.map((complaint) => (
+              <div
+                key={complaint.id}
+                className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-lg transition duration-300"
+              >
+                <div className="p-6">
+                  <div className="mb-4">
+                    <h3 className="text-lg font-bold text-blueGray-800">
+                      {complaint.full_name}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      Ward No: {complaint.ward_no}
+                    </p>
+                  </div>
+
+                  <p className="text-sm text-gray-700 mb-2">
+                    <span className="font-medium">📂 Category:</span>{" "}
+                    {complaint.category}
+                  </p>
+
+                  <p className="text-sm text-gray-700 mb-4 min-h-[60px]">
+                    <span className="font-medium">📝 Description:</span>{" "}
+                    {complaint.description}
+                  </p>
+
+                  {complaint.image && (
+                    <img
+                      src={complaint.image}
+                      alt="Complaint"
+                      className="w-full h-40 object-cover rounded-lg mb-4 shadow"
+                    />
+                  )}
+
+                  <div className="mb-4">
+                    <span
+                      className={`text-xs font-semibold px-3 py-1 rounded-full ${statusColors[complaint.status]}`}
+                    >
+                      {complaint.status.toUpperCase()}
+                    </span>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                      Update Status
+                    </label>
+                    <select
+                      value={complaint.status}
+                      onChange={(e) =>
+                        handleStatusChange(complaint.id, e.target.value)
+                      }
+                      className="w-full border px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    >
+                      {statusOptions.map((status) => (
+                        <option key={status.value} value={status.value}>
+                          {status.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

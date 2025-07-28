@@ -11,7 +11,6 @@ export default function ComplaintForm() {
 
   const [image, setImage] = useState(null);
 
-  // Automatically get geolocation on mount
   useEffect(() => {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -21,24 +20,20 @@ export default function ComplaintForm() {
         },
         (error) => {
           console.error("Geolocation error:", error);
-          // Optionally notify user here if needed
         }
       );
     }
   }, []);
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle image file input
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -62,7 +57,6 @@ export default function ComplaintForm() {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          // Don't set Content-Type header with FormData; browser does it automatically
         },
         body: data,
       });
@@ -79,7 +73,6 @@ export default function ComplaintForm() {
         });
         setImage(null);
       } else {
-        // Backend returns {'error': '...'}, so check for that:
         Swal.fire("Error", result.error || "Submission failed", "error");
       }
     } catch (error) {
@@ -89,94 +82,107 @@ export default function ComplaintForm() {
   };
 
   return (
-    <div className="container mx-auto px-4 h-full flex items-center justify-center">
-      <div className="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
-        <h2 className="text-center text-xl font-bold mb-6">Submit Complaint</h2>
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <div className="mb-4">
-            <label className="block mb-1 font-semibold" htmlFor="category">
-              Category <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              id="category"
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              placeholder="Enter category"
-              required
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring"
-            />
+    <div className="container mx-auto px-4 h-full flex content-center items-center justify-center">
+      <div className="w-full lg:w-5/12 px-4">
+        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
+          <div className="rounded-t mb-0 px-6 py-6 text-center">
+            <h6 className="text-blueGray-500 text-sm font-bold">Submit Complaint</h6>
+            <hr className="mt-6 border-b-1 border-blueGray-300" />
           </div>
+          <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
+              {/* Category Dropdown */}
+              <div className="relative w-full mb-3">
+                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                  Category <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  required
+                  className="border-0 px-3 py-3 bg-white text-blueGray-600 rounded text-sm shadow focus:outline-none focus:ring w-full"
+                >
+                  <option value="">-- Select Category --</option>
+                  <option value="Electricity">Electricity</option>
+                  <option value="Water">Water</option>
+                  <option value="Garbage">Garbage</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
 
-          <div className="mb-4">
-            <label className="block mb-1 font-semibold" htmlFor="description">
-              Description <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Describe the issue"
-              rows="4"
-              required
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring"
-            ></textarea>
+              {/* Description */}
+              <div className="relative w-full mb-3">
+                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                  Description <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Describe the issue"
+                  rows="4"
+                  required
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                ></textarea>
+              </div>
+
+              {/* Ward Number */}
+              <div className="relative w-full mb-3">
+                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                  Ward Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  name="ward_number"
+                  value={formData.ward_number}
+                  onChange={handleChange}
+                  min={1}
+                  placeholder="Enter ward number"
+                  required
+                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                />
+              </div>
+
+              {/* Image Upload */}
+              <div className="relative w-full mb-3">
+                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                  Image (optional)
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="border-0 w-full text-sm"
+                />
+              </div>
+
+              {/* Live Location */}
+              <div className="relative w-full mb-3">
+                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
+                  Live Location
+                </label>
+                <input
+                  type="text"
+                  name="live_location"
+                  value={formData.live_location}
+                  readOnly
+                  className="border-0 px-3 py-3 bg-gray-100 text-blueGray-600 rounded text-sm shadow w-full cursor-not-allowed"
+                  placeholder="Fetching location..."
+                />
+              </div>
+
+              <div className="text-center mt-6">
+                <button
+                  type="submit"
+                  className="bg-blueGray-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full"
+                >
+                  Submit Complaint
+                </button>
+              </div>
+            </form>
           </div>
-
-          <div className="mb-4">
-            <label className="block mb-1 font-semibold" htmlFor="ward_number">
-              Ward Number <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              id="ward_number"
-              name="ward_number"
-              value={formData.ward_number}
-              onChange={handleChange}
-              placeholder="Enter ward number"
-              required
-              min={1}
-              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-1 font-semibold" htmlFor="image">
-              Image (optional)
-            </label>
-            <input
-              type="file"
-              id="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="w-full"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-1 font-semibold" htmlFor="live_location">
-              Live Location
-            </label>
-            <input
-              type="text"
-              id="live_location"
-              name="live_location"
-              value={formData.live_location}
-              readOnly
-              placeholder="Fetching location..."
-              className="w-full px-3 py-2 border rounded bg-gray-100 cursor-not-allowed"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-          >
-            Submit Complaint
-          </button>
-        </form>
+        </div>
       </div>
     </div>
   );

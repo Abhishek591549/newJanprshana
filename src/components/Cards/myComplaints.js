@@ -38,8 +38,8 @@ export default function MyComplaints() {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center h-48">
-        <div className="text-xl font-semibold text-blueGray-700 animate-pulse">
+      <div className="flex justify-center items-center h-screen bg-gray-100">
+        <div className="text-xl font-semibold text-gray-700 animate-pulse">
           Loading complaints...
         </div>
       </div>
@@ -47,67 +47,82 @@ export default function MyComplaints() {
 
   if (complaints.length === 0)
     return (
-      <div className="flex justify-center items-center h-48 text-gray-400 text-lg">
-        No complaints submitted yet.
+      <div className="flex justify-center items-center h-screen bg-gray-50">
+        <div className="bg-white p-8 rounded-xl shadow-lg text-center">
+          <h2 className="text-xl font-semibold text-gray-600 mb-2">
+            No complaints found.
+          </h2>
+          <p className="text-gray-500 text-sm">
+            You haven't submitted any complaints yet.
+          </p>
+        </div>
       </div>
     );
 
   return (
-    <div className="container mx-auto px-6 py-8 max-w-5xl">
-      <h2 className="text-3xl font-extrabold mb-8 text-blueGray-900 tracking-wide">
-        My Complaints
-      </h2>
+    <div className="min-h-screen bg-gray-50 px-4 py-10">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-blueGray-800 mb-8 text-center">
+          📝 My Complaints
+        </h2>
 
-      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {complaints.map((comp) => (
-          <div
-            key={comp.id}
-            className="bg-white shadow-md rounded-lg border border-gray-200 hover:shadow-xl transition-shadow duration-300"
-          >
-            <div className="p-5">
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="text-xl font-semibold text-blueGray-800">{comp.category}</h3>
-                <span
-                  className={`text-sm font-semibold px-3 py-1 rounded-full 
-                    ${
-                      comp.status === "Resolved"
-                        ? "bg-green-100 text-green-800"
-                        : comp.status === "Pending"
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-gray-200 text-gray-600"
-                    }`}
-                >
-                  {comp.status}
-                </span>
-              </div>
+        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {complaints.map((comp) => (
+            <div
+              key={comp.id}
+              className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition duration-300"
+            >
+              <div className="p-5">
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-bold text-blueGray-700">
+                    {comp.category}
+                  </h3>
+                  <span
+                    className={`text-xs font-semibold px-3 py-1 rounded-full 
+                      ${
+                        comp.status === "Resolved"
+                          ? "bg-green-100 text-green-700"
+                          : comp.status === "Pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-gray-200 text-gray-600"
+                      }`}
+                  >
+                    {comp.status}
+                  </span>
+                </div>
 
-              <p className="text-gray-700 mb-4 min-h-[72px]">{comp.description}</p>
-
-              {comp.image && (
-                <img
-                  src={comp.image}
-                  alt="Complaint"
-                  className="w-full h-40 object-cover rounded-lg mb-4 shadow-sm"
-                />
-              )}
-
-              <div className="text-sm text-gray-500 space-y-1">
-                <p>
-                  <span className="font-semibold text-gray-600">Ward Number:</span>{" "}
-                  {comp.ward_number}
+                <p className="text-sm text-gray-700 mb-3 min-h-[72px]">
+                  {comp.description}
                 </p>
-                <p>
-                  <span className="font-semibold text-gray-600">Location:</span>{" "}
-                  {comp.live_location}
-                </p>
-                <p>
-                  <span className="font-semibold text-gray-600">Submitted At:</span>{" "}
-                  {comp.created_at}
-                </p>
+
+                {comp.image && (
+                  <img
+                    src={comp.image}
+                    alt="Complaint"
+                    className="w-full h-40 object-cover rounded-lg mb-4 shadow"
+                  />
+                )}
+
+                <div className="text-sm text-gray-500 space-y-1">
+                  <p>
+                    <span className="font-medium text-gray-600">
+                      🧭 Ward:
+                    </span>{" "}
+                    {comp.ward_number}
+                  </p>
+                  <p>
+                    <span className="font-medium text-gray-600">📍 Location:</span>{" "}
+                    {comp.live_location}
+                  </p>
+                  <p>
+                    <span className="font-medium text-gray-600">📅 Date:</span>{" "}
+                    {new Date(comp.created_at).toLocaleString()}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
