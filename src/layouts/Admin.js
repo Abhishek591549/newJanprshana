@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Switch, Redirect, useHistory, useLocation } from "react-router-dom";
-import PrivateRoute from "views/auth/privateRoute.js";
+import {
+  Switch,
+  Redirect,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
 
+import PrivateRoute from "views/auth/privateRoute.js";
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import AdminSidebar from "components/Sidebar/AdminSidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
 import FooterAdmin from "components/Footers/FooterAdmin.js";
 
+// Views
 import Dashboard from "views/admin/Dashboard.js";
 import AdminDashboard from "views/admin/adminDashboard.js";
 import Maps from "views/admin/Maps.js";
@@ -23,48 +29,70 @@ export default function Admin() {
   const location = useLocation();
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    if (user) {
-      try {
-        const parsedUser = JSON.parse(user);
-        setIsAdmin(parsedUser?.is_superuser === true);
-        setLoading(false);
+    const superUser = localStorage.getItem("is_superuser");
 
-        // Auto redirect on base /admin path
-        if (location.pathname === "/admin") {
-          history.replace(
-            parsedUser?.is_superuser ? "/admin/admindashboard" : "/admin/dashboard"
-          );
-        }
-      } catch (error) {
-        console.error("Invalid user JSON");
-        setLoading(false);
-      }
-    } else {
-      setLoading(false);
+    // 'true' is stored as a string
+    const isSuper = superUser === "true";
+    setIsAdmin(isSuper);
+
+    // Redirect only when coming to /admin directly
+    if (location.pathname === "/admin") {
+      history.replace(isSuper ? "/admin/admindashboard" : "/admin/dashboard");
     }
+
+    setLoading(false);
   }, [history, location.pathname]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return null; // Optional loading screen/spinner
 
   return (
     <>
+      {/* Sidebar: switch between admin and normal */}
       {isAdmin ? <AdminSidebar /> : <Sidebar />}
 
       <div className="relative md:ml-64 bg-blueGray-100">
         <AdminNavbar />
         <HeaderStats />
+
         <div className="px-4 md:px-10 mx-auto w-full -m-24">
           <Switch>
-            <PrivateRoute exact path="/admin/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/admin/admindashboard" component={AdminDashboard} />
+            {/* Shared pages */}
             <PrivateRoute exact path="/admin/maps" component={Maps} />
             <PrivateRoute exact path="/admin/settings" component={Settings} />
-            <PrivateRoute exact path="/admin/complaints" component={Complaints} />
-            <PrivateRoute exact path="/admin/mycomplaints" component={MyComplaints} />
-            <PrivateRoute exact path="/admin/admincomplaints" component={AdminComplaintsDashboard} />
-            <Redirect from="/admin" to="/admin/dashboard" />
+
+            {/* Dashboard based on role */}
+            <PrivateRoute
+              exact
+              path="/admin/dashboard"
+              component={Dashboard}
+            />
+            <PrivateRoute
+              exact
+              path="/admin/admindashboard"
+              component={AdminDashboard}
+            />
+
+            {/* Complaints pages */}
+            <PrivateRoute
+              exact
+              path="/admin/complaints"
+              component={Complaints}
+            />
+            <PrivateRoute
+              exact
+              path="/admin/mycomplaints"
+              component={MyComplaints}
+            />
+            <PrivateRoute
+              exact
+              path="/admin/admincomplaints"
+              component={AdminComplaintsDashboard}
+            />
+
+            {/* Fallback route */}
+            <Redirect to={isAdmin ? "/admin/admindashboard" : "/admin/dashboard"} />
           </Switch>
+
           <FooterAdmin />
         </div>
       </div>

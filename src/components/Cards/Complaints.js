@@ -82,108 +82,130 @@ export default function ComplaintForm() {
   };
 
   return (
-    <div className="container mx-auto px-4 h-full flex content-center items-center justify-center">
-      <div className="w-full lg:w-5/12 px-4">
-        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
-          <div className="rounded-t mb-0 px-6 py-6 text-center">
-            <h6 className="text-blueGray-500 text-sm font-bold">Submit Complaint</h6>
-            <hr className="mt-6 border-b-1 border-blueGray-300" />
-          </div>
-          <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
-              {/* Category Dropdown */}
-              <div className="relative w-full mb-3">
-                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Category <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  required
-                  className="border-0 px-3 py-3 bg-white text-blueGray-600 rounded text-sm shadow focus:outline-none focus:ring w-full"
-                >
-                  <option value="">-- Select Category --</option>
-                  <option value="Electricity">Electricity</option>
-                  <option value="Water">Water</option>
-                  <option value="Garbage">Garbage</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
+<div className="min-h-screen flex items-center justify-center bg-blueGray-200 px-4 py-10">
+  <div className="flex w-full max-w-6xl bg-white rounded-lg shadow-lg overflow-hidden border border-blueGray-300">
 
-              {/* Description */}
-              <div className="relative w-full mb-3">
-                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Description <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  placeholder="Describe the issue"
-                  rows="4"
-                  required
-                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                ></textarea>
-              </div>
+    {/* 🚀 Left - Complaint Form */}
+    <div className="w-full md:w-1/2 p-8 sm:p-10 md:p-12 bg-white">
+      <h2 className="text-2xl font-bold text-blueGray-700 mb-2 text-center">Submit Complaint</h2>
+      <p className="text-xs text-blueGray-500 mb-6 text-center">Your issue will be resolved shortly</p>
 
-              {/* Ward Number */}
-              <div className="relative w-full mb-3">
-                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Ward Number <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="ward_number"
-                  value={formData.ward_number}
-                  onChange={handleChange}
-                  min={1}
-                  placeholder="Enter ward number"
-                  required
-                  className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                />
-              </div>
-
-              {/* Image Upload */}
-              <div className="relative w-full mb-3">
-                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Image (optional)
-                </label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="border-0 w-full text-sm"
-                />
-              </div>
-
-              {/* Live Location */}
-              <div className="relative w-full mb-3">
-                <label className="block uppercase text-blueGray-600 text-xs font-bold mb-2">
-                  Live Location
-                </label>
-                <input
-                  type="text"
-                  name="live_location"
-                  value={formData.live_location}
-                  readOnly
-                  className="border-0 px-3 py-3 bg-gray-100 text-blueGray-600 rounded text-sm shadow w-full cursor-not-allowed"
-                  placeholder="Fetching location..."
-                />
-              </div>
-
-              <div className="text-center mt-6">
-                <button
-                  type="submit"
-                  className="bg-blueGray-800 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg w-full"
-                >
-                  Submit Complaint
-                </button>
-              </div>
-            </form>
-          </div>
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4">
+        {/* Category */}
+        <div>
+          <label className="block text-xs font-bold text-blueGray-600 mb-1">Complaint Category</label>
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+            className="w-full border-0 px-3 py-2 bg-white rounded shadow focus:outline-none focus:ring text-sm text-blueGray-700"
+          >
+            <option value="">-- Select Category --</option>
+            <option value="Electricity">Electricity</option>
+            <option value="Water">Water</option>
+            <option value="Garbage">Garbage</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-xs font-bold text-blueGray-600 mb-1">Description</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows="3"
+            required
+            className="w-full border-0 px-3 py-2 bg-white rounded shadow text-sm text-blueGray-700 focus:outline-none focus:ring"
+          />
+        </div>
+
+        {/* Ward Number */}
+        <div>
+          <label className="block text-xs font-bold text-blueGray-600 mb-1">Ward Number</label>
+          <input
+            type="number"
+            name="ward_number"
+            value={formData.ward_number}
+            onChange={handleChange}
+            min={1}
+            required
+            className="w-full border-0 px-3 py-2 bg-white rounded shadow text-sm text-blueGray-700 focus:outline-none focus:ring"
+          />
+        </div>
+
+        {/* Upload Image */}
+        <div>
+          <label className="block text-xs font-bold text-blueGray-600 mb-1">Upload Image (Optional)</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="block w-full text-sm text-blueGray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blueGray-100 file:text-blueGray-700 hover:file:bg-blueGray-200"
+          />
+        </div>
+
+        {/* Live Location */}
+        <div>
+          <label className="block text-xs font-bold text-blueGray-600 mb-1">Live Location</label>
+          <input
+            type="text"
+            name="live_location"
+            value={formData.live_location}
+            readOnly
+            className="w-full px-3 py-2 rounded bg-blueGray-100 text-sm text-blueGray-600 border-0 shadow-inner"
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="pt-2">
+          <button
+            type="submit"
+            className="w-full bg-lightBlue-600 text-white text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg transition"
+          >
+            Submit Complaint
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {/* 📋 Right - Instructions */}
+    <div className="w-full md:w-1/2 p-8 bg-white border-l border-blueGray-200">
+      <div className="rounded p-6 bg-blueGray-100 shadow-inner h-full">
+        <h2 className="text-2xl font-bold text-blueGray-700 mb-2">📋 Instructions</h2>
+        <p className="text-xs text-blueGray-500 mb-4">Please follow these steps before submitting</p>
+        <hr className="border-blueGray-300 mb-6" />
+
+        <ul className="space-y-4 text-sm text-blueGray-700">
+          <li className="flex items-start gap-2">
+            <span className="text-xl">✅</span>
+            <span>Select the correct <strong>complaint category</strong>.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-xl">📝</span>
+            <span>Describe your <strong>issue clearly</strong>.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-xl">🏷️</span>
+            <span>Provide an <strong>accurate ward number</strong>.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-xl">📸</span>
+            <span>Upload an <strong>image if available</strong>.</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-xl">📍</span>
+            <span>Enable <strong>location access</strong> for better support.</span>
+          </li>
+        </ul>
       </div>
     </div>
+
+  </div>
+</div>
+
+
   );
 }

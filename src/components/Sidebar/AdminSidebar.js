@@ -71,7 +71,7 @@ export default function AdminSidebar() {
                       ? "text-lightBlue-500"
                       : "text-blueGray-700 hover:text-blueGray-500")
                   }
-                  to="/admin/complaints"
+                  to="/admin/admincomplaints"
                 >
                   <i className="fas fa-exclamation-circle mr-2 text-sm text-blueGray-300" />
                   Manage Complaints

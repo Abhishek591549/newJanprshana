@@ -3038,3 +3038,150 @@ select {
 
 @media (min-width: 1536px) {
 }
+.page {
+  padding: 100px 50px;
+  background-color: #f1f5f9;
+  min-height: 100vh;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #1e293b;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+.card {
+  flex: 0 0 22%;
+  height: 300px;
+  background: white;
+  border-radius: 40px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (max-width: 1200px) {
+  .card {
+    flex: 0 0 30%;
+  }
+}
+@media (max-width: 768px) {
+  .card {
+    flex: 0 0 45%;
+  }
+}
+@media (max-width: 480px) {
+  .card {
+    flex: 0 0 100%;
+  }
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-category {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #111827;
+}
+
+.card-status {
+  margin: 20px 0;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-green {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.status-yellow {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-red {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.status-blue {
+  background-color: #bfdbfe;
+  color: #1e3a8a;
+}
+
+.status-default {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.card-button {
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.card-button-blue {
+  background-color: #0284c7;
+}
+
+.card-button-blue:hover {
+  background-color: #0369a1;
+}
+
+.arrow {
+  font-size: 14px;
+}
+
+.loading,
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f1f5f9;
+  font-size: 20px;
+}
+
+.empty-box {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.modal-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin-top: 16px;
+}

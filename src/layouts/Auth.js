@@ -11,6 +11,7 @@ import FooterSmall from "components/Footers/FooterSmall.js";
 import Login from "views/auth/Login.js";
 import Register from "views/auth/Register.js";
 import OtpVerification from "views/auth/OtpVerification.js"
+import Logout from "views/auth/Logout.js";
 export default function Auth() {
   return (
     <>
@@ -26,6 +27,8 @@ export default function Auth() {
           ></div>
           <Switch>
             <Route path="/auth/login" exact component={Login} />
+            <Route path="/auth/logout" exact component={Logout} />
+
             <Route path="/auth/register" exact component={Register} />
            <Route path="/auth/otp-verification" exact component={OtpVerification} />
 
